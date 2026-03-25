@@ -9,11 +9,12 @@ app.post("/signup",async (req,res)=>{
     //console.log(req.body)
     const user = new User(req.body)
     try{
-        res.send("user added successfully")
+        
         await user.save()
+        res.send("user added successfully")
     }
     catch(err){
-        res.status(400).send("error while adding the user")
+        res.status(400).send("error while adding the user " + err.message)
     }
 })
 
@@ -68,12 +69,13 @@ app.patch("/user", async (req,res)=>{
     try{
         //await User.findOneAndUpdate({_id : userId},data)
         const user = await User.findByIdAndUpdate(userId,data,{
-            returnDocument : "after"
+            returnDocument : "after",
+            runValidators : "true"
         })
         console.log(user)
         res.send("user updated successfully")
     }catch(err){
-        res.status(400).send('something went wrong')
+        res.status(400).send(err.message)
     }
 })
 
