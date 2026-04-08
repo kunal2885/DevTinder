@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
         required : true,
         minLength : 4,
         maxLength: 55,
+        index : true,
         lowercase : true,
         
     },
@@ -15,6 +16,7 @@ const userSchema = new mongoose.Schema({
         type : String,
         minLength : 4,
         maxLength : 55,
+        index : true,
         validate(value){
             if(["!","@","&","%","*"].some(item => value.includes(item))){
                 throw new Error("enter valid lastname")
