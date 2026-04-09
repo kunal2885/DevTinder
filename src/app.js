@@ -5,10 +5,11 @@ const authRouter = require("./routes/auth")
 const profileRouter = require("./routes/profile")
 const requestRouter = require("./routes/request")
 const cookieParser = require("cookie-parser")
+const userRouter = require("./routes/user")
 
 app.use(express.json())
 app.use(cookieParser())
-app.use("/",authRouter,profileRouter,requestRouter)
+app.use("/",authRouter,profileRouter,requestRouter,userRouter)
 
 
 
