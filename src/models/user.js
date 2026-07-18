@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
         maxLength: 55,
         index : true,
         lowercase : true,
+        validate(value){
+            if(["!","@","&","%","*"].some(item => value.includes(item))){
+                throw new Error("enter valid firstname")
+            }
+        }
         
     },
     lastname : {

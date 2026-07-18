@@ -48,7 +48,7 @@ requestRouter.post("/request/send/:status/:userId",userAuth,async (req,res)=>{
     const data = await connectionRequest.save()
     res.json({
         message : req.user.firstname +" "+ status + " " +validReceiver.firstname,
-        data : data
+        data 
     })
 }catch(err){
     res.status(400).send("Error :" + err.message)
@@ -57,10 +57,11 @@ requestRouter.post("/request/send/:status/:userId",userAuth,async (req,res)=>{
     
 })
 
-requestRouter.post("/request/review/:status/:requestId",userAuth,async (req,res)=>{
+requestRouter.patch("/request/review/:status/:requestId",userAuth,async (req,res)=>{
     try{
     const {status , requestId} = req.params
     const loggedInUser = req.user
+    //validating the allowed status
     const allowedStatus = ["accepted","rejected"]
     if(!allowedStatus.includes(status)){
         return res.status(400).json({message : status + "is not a valid status"})

@@ -10,7 +10,9 @@ const crypto = require("crypto")
 authRouter.post("/signup",async (req,res)=>{
     //validate the data of signup api
     try{
+    validateSignup(req)
     const {firstname, lastname , emailid ,password} = req.body
+    //hashing the password
     const passwordHash = await bcrypt.hash(password,10)
     const user = new User({
         firstname,
@@ -19,10 +21,8 @@ authRouter.post("/signup",async (req,res)=>{
         password : passwordHash
 
     })
-    //hashing the password
-
     
-        validateSignup(req)
+        
 
         await user.save()
         res.send("user added successfully")
@@ -49,7 +49,7 @@ authRouter.post("/login", async (req,res)=>{
 
         //add that token to cookie and sends back the response
         res.cookie("mycookie",token,{expires : new Date(Date.now() + 24 * 3600000)})
-        res.send("login successful")
+        res.send(user)
     }
     else{
         res.send("invalid credentials")
@@ -64,7 +64,7 @@ authRouter.post("/login", async (req,res)=>{
 authRouter.post("/logout",(req,res)=>{
     res.cookie("mycookie",null,{
         expires : new Date(Date.now())
-    })
+    }) 
     res.send("logged out successfuly")
 })
 
@@ -77,13 +77,11 @@ authRouter.post("/forgot-password", async (req,res)=>{
         if(!user){
             return res.status(400).json({message : "your email is not registered, please signup"})
         }
-        console.log(user)
+        
         const resetToken = crypto.randomBytes(32).toString("hex")
         const resetTokenExpiry = Date.now() + 30 * 60* 1000
         user.resetToken = resetToken
-        console.log("generated token :",resetToken)
         user.resetTokenExpiry = resetTokenExpiry
-        console.log(resetTokenExpiry)
         await user.save()
         return res.json({
             message : "token generated",
@@ -93,11 +91,9 @@ authRouter.post("/forgot-password", async (req,res)=>{
     }
     //phase 2 : resetting of password
     if(token && newPassword) {
-        console.log("token from body :",token)
         const user = await User.findOne({resetToken : token,
             resetTokenExpiry : {$gt : Date.now()}
         } )
-        console.log("User from DB:", user);
         if(!user){
             return res.status(400).json({message : "token expired"})
         }

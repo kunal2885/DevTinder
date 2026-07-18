@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken")
 const User = require("../models/user")
 const userAuth =  async (req,res,next)=>{
-    try{const {mycookie} = req.cookies
+    try{
+    const {mycookie} = req.cookies
     if(!mycookie){
         throw new Error("Please login!!!")
     }

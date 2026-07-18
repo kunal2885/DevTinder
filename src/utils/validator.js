@@ -3,7 +3,7 @@ const validator = require("validator")
 const validateSignup = (req)=>{
     const {firstname, lastname , emailid ,password} = req.body
     if(!firstname || !lastname){
-        throw new Error("enter your correct first and lastname")
+        throw new Error("enter your correct first and last name")
     }
     else if(!validator.isEmail(emailid)){
         throw new Error("enter a valid email")
@@ -15,7 +15,7 @@ const validateSignup = (req)=>{
 }
 const validateEditRequest = (req)=>{
     //allowed fields are : 
-    const allowedFields = ["firstname","lastname","age","gender","skills","photourl"]
+    const allowedFields = ["firstname","lastname","age","gender","skills","photourl","about"]
     const isUpdateAllowed = Object.keys(req.body).every(key => allowedFields.includes(key)) 
     return isUpdateAllowed
 }
