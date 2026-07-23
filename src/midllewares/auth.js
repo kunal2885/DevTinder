@@ -4,7 +4,7 @@ const userAuth =  async (req,res,next)=>{
     try{
     const {mycookie} = req.cookies
     if(!mycookie){
-        throw new Error("Please login!!!")
+        return res.status(401).send("Please login")
     }
     const decodedData = await jwt.verify(mycookie,"MyDevTinder28Token")
     const user = await User.findById(decodedData._id)

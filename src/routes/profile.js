@@ -11,7 +11,7 @@ profileRouter.get("/profile/view",userAuth, async (req,res)=>{
     }    
     
     catch(err){
-        res.status(400).send("Error:  " + err.message)
+        res.status(400).send("Please Login")
     }
 })
 profileRouter.patch("/profile/edit",userAuth,async (req,res)=>{
