@@ -69,7 +69,7 @@ const userSchema = new mongoose.Schema({
     },
     photourl :{
         type : String,
-        default : "https://www.freepik.com/free-photos-vectors/profile",
+        default : "https://share.google/7D31EE7Xf158qSsxJ",
         validate(value){
             if(!validator.isURL(value)){
                 throw new Error("enter a valid url")
