@@ -67,16 +67,15 @@ const userSchema = new mongoose.Schema({
         type : [String,],
 
     },
-    photourl :{
-        type : String,
-        default : "https://share.google/7D31EE7Xf158qSsxJ",
-        validate(value){
-            if(!validator.isURL(value)){
-                throw new Error("enter a valid url")
-            }
+    photourl: {
+    type: String,
+    default: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+    validate(value) {
+        if (!validator.isURL(value)) {
+            throw new Error("Enter a valid URL");
         }
-
-    },
+    }
+},
     about : {
         type: String,
         default : "New user on DevTinder"
