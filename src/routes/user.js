@@ -3,7 +3,7 @@ const userRouter = express.Router()
 const {userAuth} = require("../midllewares/auth")
 const ConnectionRequestModel = require("../models/connectionRequest")
 const User = require("../models/user.js")
-const SAFE_USER_DATA = "firstname lastname skills photurl about age gender"
+const SAFE_USER_DATA = "firstname lastname skills photourl about age gender"
 
 //to get all the pending connections of the logged in user
 userRouter.get("/user/connections/received",userAuth, async(req,res)=>{
@@ -69,7 +69,7 @@ userRouter.get("/user/feed",userAuth, async (req,res)=>{
             { _id : {$nin : Array.from(hideUsersFromFeed)}},
             { _id : {$ne : loggedInUser._id} }
          ]
-         }).select("firstname lastname skills photurl about age gender")
+         }).select("firstname lastname skills photourl about age gender")
          .skip(skip)
          .limit(limit);
         res.send(users)
