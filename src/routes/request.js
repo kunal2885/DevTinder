@@ -3,6 +3,7 @@ const requestRouter = express.Router()
 const {userAuth} = require("../midllewares/auth")
 const ConnectionRequestModel = require("../models/connectionRequest")
 const User = require("../models/user")
+const sendEmail = require("../utils/sendEmail");
 
 
 requestRouter.post("/request/send/:status/:userId",userAuth,async (req,res)=>{
@@ -46,12 +47,21 @@ requestRouter.post("/request/send/:status/:userId",userAuth,async (req,res)=>{
         status
     })
     const data = await connectionRequest.save()
+    const emailRes = await sendEmail.run(
+        "A new connection request from " + req.user.firstname,
+        req.user.firstname + " is " + status + " in " + validReceiver.firstname
+      );
+      console.log(emailRes);
     res.json({
         message : req.user.firstname +" "+ status + " " +validReceiver.firstname,
         data 
     })
 }catch(err){
-    res.status(400).send("Error :" + err.message)
+    console.error("Full Error:", err);
+    res.status(500).json({
+        message: err.message,
+        stack: err.stack
+    });
 }
 
     
