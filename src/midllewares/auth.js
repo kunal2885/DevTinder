@@ -6,15 +6,16 @@ const userAuth =  async (req,res,next)=>{
     if(!mycookie){
         return res.status(401).send("Please login")
     }
-    const decodedData = await jwt.verify(mycookie,"MyDevTinder28Token")
+    const decodedData = await jwt.verify(mycookie,process.env.JWT_SECRET)
     const user = await User.findById(decodedData._id)
     if(!user){
         throw new Error("User not found")
     }
     req.user= user
     next()}
-    catch(err){
-        res.status(400).send("Error:" + err.message)
+    catch (err) {
+        
+        res.status(400).send(err.message);
     }
     
 }
