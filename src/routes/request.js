@@ -51,7 +51,7 @@ requestRouter.post("/request/send/:status/:userId",userAuth,async (req,res)=>{
         "A new connection request from " + req.user.firstname,
         req.user.firstname + " is " + status + " in " + validReceiver.firstname
       );
-      console.log(emailRes);
+      
     res.json({
         message : req.user.firstname +" "+ status + " " +validReceiver.firstname,
         data 
