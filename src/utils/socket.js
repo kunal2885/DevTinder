@@ -1,5 +1,9 @@
 const socket = require("socket.io")
 
+const getSecretRoomId = (targetUserId , userId)=>{
+    return [targetUserId , userId].sort().join("$")
+}
+
 const initializeSocket = (server)=>{
     const io = socket(server,{
         cors: {
@@ -10,11 +14,20 @@ const initializeSocket = (server)=>{
     io.on("connection",(socket)=>{
         //event handler
         
-        io.on("joinChat",()=>{})
+        socket.on("joinChat",({firstname , userId , targetUserId})=>{
+            const roomId = getSecretRoomId(targetUserId , userId)
+            console.log(firstname + "joined : " + roomId)
+            socket.join(roomId)
+        })
 
-        io.on("sendMessage",()=>{})
+        socket.on("sendMessage",({firstname , lastname , userId , targetUserId , text})=>{
+            const roomId = getSecretRoomId(targetUserId , userId)
+            console.log(firstname + "messaged : " + text)
+            io.to(roomId).emit("messageReceived", {firstname , lastname , text})
 
-        io.on("disconnect",()=>{})
+        })
+
+        socket.on("disconnect",()=>{})
 
     })
 
