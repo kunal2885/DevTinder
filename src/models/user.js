@@ -78,7 +78,7 @@ const userSchema = new mongoose.Schema({
 },
     about : {
         type: String,
-        default : "New user on DevTinder"
+        default : "New user on DevMatch"
     },
     resetToken : {
         type : String
